@@ -1,5 +1,5 @@
 export default function User(){
     return(
-        <div>usuário</div>
+        <div>área do usuário</div>
     )
 }
