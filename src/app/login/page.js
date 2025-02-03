@@ -26,6 +26,9 @@ export default function Login() {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
+          // Armazene as informações do usuário no localStorage
+          localStorage.setItem("userUID", user.uid);
+          localStorage.setItem("userData", JSON.stringify(userData));
         } else {
           console.error("Nenhum documento encontrado!");
         }

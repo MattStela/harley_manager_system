@@ -20,7 +20,7 @@ export default function Register() {
   const loggedInUser = useAuth(); // Obtém o usuário logado do contexto de autenticação
 
   const getAllowedRoles = (currentRole) => {
-    const roles = Array.from({ length: 8 }, (_, i) => `aro ${i + 1}`);
+    const roles = ["adm", ...Array.from({ length: 8 }, (_, i) => `aro ${i + 1}`)];
     if (currentRole === "adm") {
       return roles;
     }
