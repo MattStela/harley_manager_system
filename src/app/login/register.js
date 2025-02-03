@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { auth, db } from "@/firebase"; // Importe o Firestore corretamente
 import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { useAuth } from "../../components/AuthContext"; // Importe o hook de autenticação
 
-export default function Register({ loggedInUser }) {
+export default function Register() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,6 +17,7 @@ export default function Register({ loggedInUser }) {
   const [errorMessage, setErrorMessage] = useState(""); // Estado para mensagens de erro
   const [successMessage, setSuccessMessage] = useState(""); // Estado para mensagem de sucesso
   const [allowedRoles, setAllowedRoles] = useState([]); // Estado para cargos permitidos
+  const loggedInUser = useAuth(); // Obtém o usuário logado do contexto de autenticação
 
   const getAllowedRoles = (currentRole) => {
     const roles = Array.from({ length: 8 }, (_, i) => `aro ${i + 1}`);
@@ -26,26 +28,27 @@ export default function Register({ loggedInUser }) {
     return roles.slice(currentRoleIndex + 1);
   };
 
-  useEffect(() => {
+  const fetchCurrentUserRole = async () => {
     if (loggedInUser && loggedInUser.uid) {
-      const fetchCurrentUserRole = async () => {
-        try {
-          const userDoc = await getDoc(doc(db, "users", loggedInUser.uid));
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
-            setAllowedRoles(getAllowedRoles(userData.role));
-          } else {
-            console.error("Nenhum documento encontrado para o usuário atual!");
-          }
-        } catch (error) {
-          console.error("Erro ao buscar os dados do usuário atual:", error);
+      try {
+        const userDoc = await getDoc(doc(db, "users", loggedInUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setAllowedRoles(getAllowedRoles(userData.role));
+        } else {
+          console.error("Nenhum documento encontrado para o usuário atual!");
         }
-      };
-      fetchCurrentUserRole();
+      } catch (error) {
+        console.error("Erro ao buscar os dados do usuário atual:", error);
+      }
     } else {
       console.error("Usuário atual não está definido.");
       setErrorMessage("Usuário atual não está definido. Por favor, faça login novamente.");
     }
+  };
+
+  useEffect(() => {
+    fetchCurrentUserRole();
   }, [loggedInUser]);
 
   const handleChange = (e) => {
@@ -108,6 +111,17 @@ export default function Register({ loggedInUser }) {
 
       // Exiba a mensagem de sucesso
       setSuccessMessage("O cadastro foi realizado com sucesso!");
+
+      // Verifique se o usuário logado é o mesmo do localStorage
+      const loggedInUID = localStorage.getItem("userUID");
+      if (loggedInUID === user.uid) {
+        console.log("O usuário logado é o mesmo do localStorage.");
+      } else {
+        console.log("O usuário logado não é o mesmo do localStorage.");
+      }
+
+      // Recarregar os cargos permitidos para garantir que o usuário logado ainda tenha as mesmas permissões
+      fetchCurrentUserRole();
 
     } catch (error) {
       setErrorMessage(`Erro ao fazer o cadastro: ${error.message}`);
