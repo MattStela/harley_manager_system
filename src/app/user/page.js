@@ -37,8 +37,14 @@ export default function User() {
   return (
     <div className=" w-full p-4 flex justify-center items-center space-y-4 text-center flex-col">
       {/* === Cabeçalho ====================================================*/}
-      <HeaderTop loggedInUser={loggedInUser} />
-      <div className=" w-[300px] mt-4 mb-2 cursor-pointer" onClick={handleToggleRegister}>
+      <div className="rounded-full w-full bg-gray-900 flex flex-col justify-center items-center">
+        <HeaderTop loggedInUser={loggedInUser} />
+      </div>
+      {/* === Registro ====================================================*/}
+      <div
+        className=" w-full mt-4 mb-2 cursor-pointer"
+        onClick={handleToggleRegister}
+      >
         <span className="border p-4 text-gray-500 flex items-center justify-center">
           {showRegister ? (
             <FiChevronUp size={24} /> // Setinha para cima quando mostrar o registro
@@ -49,7 +55,6 @@ export default function User() {
         </span>
         {showRegister && <Register loggedInUser={loggedInUser} />}
       </div>
-      
     </div>
   );
 }
