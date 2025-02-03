@@ -24,9 +24,9 @@ export default function RootLayout({ children }) {
       <body
         className={`bg-black ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header/>
+        <Header />
         <div className="border m-1 flex justify-center items-center min-h-screen">{children}</div>
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );
