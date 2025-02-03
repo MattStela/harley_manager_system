@@ -7,19 +7,24 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // Estado para mensagens de erro
   const router = useRouter();
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setErrorMessage(""); // Resetar mensagem de erro
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Login bem-sucedido
         const user = userCredential.user;
         console.log("Usuário logado:", user);
-        router.push("/"); // Redirecione para a página inicial após o login
+        // Redirecione para a página "user" após o login
+        router.push("/user");
       })
       .catch((error) => {
         // Erro ao fazer login
+        setErrorMessage("Erro ao fazer login: " + error.message);
         console.error("Erro ao fazer login:", error.code, error.message);
       });
   };
@@ -63,6 +68,7 @@ export default function Login() {
             required
           />
         </div>
+        {errorMessage && <p className="text-red-500 text-sm mb-4">{errorMessage}</p>}
         <button
           type="submit"
           className="bg-blue-500 hover:cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

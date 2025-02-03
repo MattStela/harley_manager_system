@@ -28,6 +28,8 @@ export default function Header() {
         // Login bem-sucedido
         const user = userCredential.user;
         console.log("Usuário logado:", user);
+        // Redirecione para a página "user" após o login
+        router.push("/user");
       })
       .catch((error) => {
         // Erro ao fazer login, redirecione para a página de registro
