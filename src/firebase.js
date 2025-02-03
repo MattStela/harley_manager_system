@@ -16,11 +16,4 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let analytics;
-if (typeof window !== "undefined") {
-  // Inicialize o Analytics apenas no lado do cliente
-  const { getAnalytics } = require("firebase/analytics");
-  analytics = getAnalytics(app);
-}
-
-export { auth, db, analytics };
+export { auth, db };
