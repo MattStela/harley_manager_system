@@ -29,7 +29,7 @@ export default function Register() {
   };
 
   const fetchCurrentUserRole = async () => {
-    if (loggedInUser && loggedInUser.uid) {
+    if (loggedInUser?.uid) {
       try {
         const userDoc = await getDoc(doc(db, "users", loggedInUser.uid));
         if (userDoc.exists()) {
@@ -65,7 +65,7 @@ export default function Register() {
     setErrorMessage(""); // Resetar mensagem de erro
     setSuccessMessage(""); // Resetar mensagem de sucesso
 
-    if (!loggedInUser || !loggedInUser.uid) {
+    if (!loggedInUser?.uid) {
       setErrorMessage("Usuário atual não está definido. Por favor, faça login novamente.");
       return;
     }
@@ -80,8 +80,7 @@ export default function Register() {
       return;
     }
 
-    const confirmRegistration = window.confirm("Você tem certeza que deseja registrar este usuário?");
-    if (!confirmRegistration) {
+    if (!window.confirm("Você tem certeza que deseja registrar este usuário?")) {
       return;
     }
 
