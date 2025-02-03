@@ -41,28 +41,42 @@ export default function Header() {
   }, [loggedInUser]);
 
   return (
-    <div className="bg-gray-900 h-[120px] px-4 py-4 flex flex-row justify-center items-center">
-      <div className="h-full flex justify-center items-center">
+    <header className="bg-gray-900 h-[120px] px-4 py-4 flex flex-row justify-between items-center shadow-md">
+      <div className="flex items-center">
         <Image
           src="/harley-white.png"
           width={100}
           height={100}
           alt="ícone de harley branca"
-          className=""
+          className="mr-4"
         />
+        <Link href="/" className="text-white text-xl font-bold">
+          Sistema Aro
+        </Link>
       </div>
-      <div className="flex-grow h-full flex items-center justify-center p-4">
-        <Link href="/">Início</Link>
-      </div>
-      <div className="flex-grow h-full flex items-center justify-center p-4">
+      <nav className="flex items-center space-x-4">
+        <Link href="/" className="text-white hover:text-gray-300">
+          Início
+        </Link>
+
         {isLoggedIn ? (
-          <button onClick={handleLogout} className="text-white">
-            Sair
-          </button>
+          <div className="flex flex-col">
+            <Link href="/user" className="font-bold text-white hover:text-gray-300">
+            Painel
+          </Link>
+            <button
+              onClick={handleLogout}
+              className="text-xs text-white hover:text-gray-300"
+            >
+              Sair
+            </button>
+          </div>
         ) : (
-          <Link href="/login">Entrar</Link>
+          <Link href="/login" className="text-white hover:text-gray-300">
+            Entrar
+          </Link>
         )}
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 }

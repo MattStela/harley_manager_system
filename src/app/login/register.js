@@ -147,16 +147,16 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-black p-4">
-      <h1 className="text-2xl mb-6 text-white">Cadastro de Membro do Motoclube</h1>
-      <form onSubmit={handleRegister} className="p-6 rounded-lg shadow-lg w-[300px] space-y-4">
+      <h1 className="text-3xl mb-6 text-white font-bold">Cadastro de Membro do Motoclube</h1>
+      <form onSubmit={handleRegister} className="p-6 rounded-lg shadow-lg w-full max-w-md space-y-6 bg-gray-800">
         {[
           { id: "email", type: "email", label: "Email" },
           { id: "password", type: "password", label: "Senha" },
           { id: "phone", type: "tel", label: "Telefone" },
           { id: "nickname", type: "text", label: "Apelido" },
         ].map(({ id, type, label }) => (
-          <div key={id} className="flex items-start flex-col">
-            <label className="block text-white text-sm mb-2" htmlFor={id}>
+          <div key={id} className="flex flex-col">
+            <label className="block text-white text-sm font-semibold mb-2" htmlFor={id}>
               {label}
             </label>
             <input
@@ -164,20 +164,20 @@ export default function Register() {
               id={id}
               value={formData[id]}
               onChange={handleChange}
-              className="shadow h-8 w-full appearance-none rounded-full py-2 px-4 bg-gray-700 text-white leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded-full w-full py-2 px-3 bg-gray-700 text-white leading-tight focus:outline-none focus:shadow-outline"
               required
             />
           </div>
         ))}
         <div className="mb-4">
-          <label className="block text-white text-sm mb-2" htmlFor="role">
+          <label className="block text-white text-sm font-semibold mb-2" htmlFor="role">
             Função/Cargo
           </label>
           <select
             id="role"
             value={formData.role}
             onChange={handleChange}
-            className="shadow h-8 w-full appearance-none rounded-full py-2 px-4 bg-gray-700 text-white leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded-full w-full py-2 px-3 bg-gray-700 text-white leading-tight focus:outline-none focus:shadow-outline"
             required
           >
             <option value="" disabled>
@@ -191,13 +191,13 @@ export default function Register() {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-white text-sm font-bold mb-2">
+          <label className="block text-white text-sm font-semibold mb-2">
             <input
               type="checkbox"
               id="termsAccepted"
               checked={formData.termsAccepted}
               onChange={handleChange}
-              className="bg-white text-black mr-2 leading-tight"
+              className="mr-2 leading-tight"
               required
             />
             Aceito os termos e condições
@@ -207,7 +207,7 @@ export default function Register() {
         {successMessage && <p className="text-green-500 text-sm mb-4">{successMessage}</p>}
         <button
           type="submit"
-          className="bg-blue-500 hover:cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline w-full"
           disabled={!formData.termsAccepted}
         >
           Registrar
