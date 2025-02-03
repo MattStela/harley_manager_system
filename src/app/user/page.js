@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import HeaderTop from "./HeaderTop";
-import Register from "../login/register";
+import Register from "./register";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi"; // Importar os ícones
 import { auth, db } from "@/firebase"; // Importe o Firestore corretamente
 import { doc, getDoc } from "firebase/firestore";
@@ -35,11 +35,11 @@ export default function User() {
   };
 
   return (
-    <div className="p-4 flex justify-center items-center space-y-4 text-center flex-col">
+    <div className=" w-full p-4 flex justify-center items-center space-y-4 text-center flex-col">
       {/* === Cabeçalho ====================================================*/}
       <HeaderTop loggedInUser={loggedInUser} />
-      <div className="mt-4 mb-2 cursor-pointer" onClick={handleToggleRegister}>
-        <span className="text-gray-500 flex items-center justify-center">
+      <div className=" w-[300px] mt-4 mb-2 cursor-pointer" onClick={handleToggleRegister}>
+        <span className="border p-4 text-gray-500 flex items-center justify-center">
           {showRegister ? (
             <FiChevronUp size={24} /> // Setinha para cima quando mostrar o registro
           ) : (
@@ -47,8 +47,9 @@ export default function User() {
           )}
           Registrar Novo Membro
         </span>
+        {showRegister && <Register loggedInUser={loggedInUser} />}
       </div>
-      {showRegister && <Register loggedInUser={loggedInUser} />}
+      
     </div>
   );
 }

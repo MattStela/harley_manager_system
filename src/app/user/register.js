@@ -144,15 +144,14 @@ export default function Register() {
 
   if (allowedRoles.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col justify-center items-center bg-black p-4">
-        <h1 className="text-2xl mb-6 text-white">Você não tem permissão para registrar novos usuários.</h1>
+      <div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-black p-4">
-      <h1 className="text-2xl mb-6 text-white">Cadastro de Membro do Motoclube</h1>
+    <div className="flex flex-col justify-center items-center bg-black p-2">
+      
       <form onSubmit={handleRegister} className="p-6 rounded-lg shadow-lg w-[300px] space-y-4">
         {[
           { id: "email", type: "email", label: "Email" },

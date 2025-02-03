@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       >
         <Header />
         <AppProvider>
-          <div className="border m-1 flex justify-center items-center min-h-screen">
+          <div className="border m-1 flex justify-center items-start min-h-screen">
             {children}
           </div>
         </AppProvider>
