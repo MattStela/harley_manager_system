@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,10 +17,22 @@ export default function Login() {
     setErrorMessage(""); // Resetar mensagem de erro
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Login bem-sucedido
         const user = userCredential.user;
         console.log("Usuário logado:", user);
+
+        // Buscar informações adicionais do usuário no Firestore
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          // Armazene as informações do usuário no localStorage
+          localStorage.setItem("userUID", user.uid);
+          localStorage.setItem("userData", JSON.stringify(userData));
+        } else {
+          console.error("Nenhum documento encontrado!");
+        }
+
         // Redirecione para a página "user" após o login
         router.push("/user");
       })
