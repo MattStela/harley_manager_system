@@ -58,19 +58,18 @@ export default function Header() {
         <Link href="/" className="text-white hover:text-gray-300">
           Início
         </Link>
-
-        {isLoggedIn ? (
-          <div className="flex flex-col">
-            <Link href="/user" className="font-bold text-white hover:text-gray-300">
+        {isLoggedIn && (
+          <Link href="/user" className="text-white hover:text-gray-300">
             Painel
           </Link>
-            <button
-              onClick={handleLogout}
-              className="text-xs text-white hover:text-gray-300"
-            >
-              Sair
-            </button>
-          </div>
+        )}
+        {isLoggedIn ? (
+          <button
+            onClick={handleLogout}
+            className="text-white hover:text-gray-300"
+          >
+            Sair
+          </button>
         ) : (
           <Link href="/login" className="text-white hover:text-gray-300">
             Entrar

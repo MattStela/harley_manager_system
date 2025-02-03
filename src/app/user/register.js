@@ -20,12 +20,11 @@ export default function Register() {
   const loggedInUser = useAuth(); // Obtém o usuário logado do contexto de autenticação
 
   const getAllowedRoles = (currentRole) => {
-    const roles = Array.from({ length: 8 }, (_, i) => `aro ${i + 1}`);
+    const roles = ["admaster", "adm", "integrante"];
     if (currentRole === "adm") {
-      return roles;
+      return roles.slice(2); // Exclude "admaster" and "adm"
     }
-    const currentRoleIndex = roles.indexOf(currentRole.toLowerCase());
-    return roles.slice(currentRoleIndex + 1);
+    return roles;
   };
 
   const fetchCurrentUserRole = async () => {
@@ -48,7 +47,11 @@ export default function Register() {
   };
 
   useEffect(() => {
-    fetchCurrentUserRole();
+    if (loggedInUser && loggedInUser.uid) {
+      fetchCurrentUserRole();
+    } else {
+      setAllowedRoles(getAllowedRoles());
+    }
   }, [loggedInUser]);
 
   const handleChange = (e) => {
@@ -105,7 +108,7 @@ export default function Register() {
         nickname: formData.nickname,
         role: formData.role,
         termsAccepted: formData.termsAccepted,
-        isAdm: formData.role.toLowerCase() === "aro 1",
+        isAdm: formData.role.toLowerCase() === "adm",
       });
       console.log("Informações adicionais salvas no Firestore");
 
