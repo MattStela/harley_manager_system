@@ -53,8 +53,9 @@ export default function User() {
           )}
           Registrar Novo Membro
         </span>
-        {showRegister && <Register loggedInUser={loggedInUser} />}
+        
       </div>
+      {showRegister && <Register loggedInUser={loggedInUser} />}
     </div>
   );
 }
