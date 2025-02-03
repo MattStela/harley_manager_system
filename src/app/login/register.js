@@ -112,17 +112,6 @@ export default function Register() {
       // Exiba a mensagem de sucesso
       setSuccessMessage("O cadastro foi realizado com sucesso!");
 
-      // Verifique se o usuário logado é o mesmo do banco de dados
-      const loggedInUserDoc = await getDoc(doc(db, "users", loggedInUser.uid));
-      if (loggedInUserDoc.exists()) {
-        const loggedInUserData = loggedInUserDoc.data();
-        if (loggedInUserData.uid === user.uid) {
-          console.log("O usuário logado é o mesmo do banco de dados.");
-        } else {
-          console.log("O usuário logado não é o mesmo do banco de dados.");
-        }
-      }
-
       // Recarregar os cargos permitidos para garantir que o usuário logado ainda tenha as mesmas permissões
       fetchCurrentUserRole();
 
@@ -136,6 +125,13 @@ export default function Register() {
         termsAccepted: false,
       });
 
+      // Atualize o HeaderTop com as informações do usuário logado
+      const loggedInUserDoc = await getDoc(doc(db, "users", loggedInUser.uid));
+      if (loggedInUserDoc.exists()) {
+        const loggedInUserData = loggedInUserDoc.data();
+        localStorage.setItem("userData", JSON.stringify(loggedInUserData));
+      }
+
     } catch (error) {
       setErrorMessage(`Erro ao fazer o cadastro: ${error.message}`);
       console.error("Erro ao fazer o cadastro:", error.code, error.message);
@@ -144,14 +140,15 @@ export default function Register() {
 
   if (allowedRoles.length === 0) {
     return (
-      <div>
+      <div className="min-h-screen flex flex-col justify-center items-center bg-black p-4">
+        <h1 className="text-2xl mb-6 text-white">Você não tem permissão para registrar novos usuários.</h1>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col justify-center items-center bg-gray-900 rounded-3xl p-2">
-      
+    <div className="min-h-screen flex flex-col justify-center items-center bg-black p-4">
+      <h1 className="text-2xl mb-6 text-white">Cadastro de Membro do Motoclube</h1>
       <form onSubmit={handleRegister} className="p-6 rounded-lg shadow-lg w-[300px] space-y-4">
         {[
           { id: "email", type: "email", label: "Email" },
